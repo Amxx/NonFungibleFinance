@@ -15,7 +15,7 @@ const argv = require('yargs/yargs')(process.argv.slice(2))
     revertStrings: { type: 'string', choices: [ 'default', 'strip'          ], default: 'default'    },
     // chain
     fork:          { type: 'string',                                                                 },
-    chainId:       { type: 'number',                                           default: 1337         },
+    chainId:       { type: 'number',                                           default: 31337        },
     slow:          { type: 'boolean',                                          default: false        },
     // APIs
     coinmarketcap: { type: 'string'                                                                  },
@@ -95,7 +95,13 @@ Object.assign(
     'moonbeam', 'moonriver', 'moonbaseAlpha',
     // xdai
     'xdai', 'sokol',
+		// neon
+		'neon', 'neonTestnet',
+		// chronos
+		'cronos', 'cronosTestnet',
   ].map(name => [ name, { url: argv[`${name}Node`], accounts } ]).filter(([, { url} ]) => url)),
   argv.slow && { hardhat: { mining: { auto: false, interval: [3000, 6000] }}}, // Simulate a slow chain locally
   argv.fork && { hardhat: { forking: { url: argv.fork }}}, // Simulate a mainnet fork
 );
+
+// console.log(module.exports.networks)

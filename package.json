@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "author": "Hadrien Croubois (@Amxx)",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "env COVERAGE=true hardhat coverage",
+    "deploy": "hardhat run script/migrate.js"
+  },
   "dependencies": {
     "@amxx/hre": "^0.1.0-rc.0",
     "@openzeppelin/contracts": "^4.7.1"

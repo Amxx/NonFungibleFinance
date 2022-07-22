@@ -1,10 +1,9 @@
-const { MigrationManager, getFactory, attach } = require('@amxx/hre/scripts');
+const { MigrationManager, getFactory } = require('@amxx/hre/scripts');
 const DEBUG = require('debug')('VV');
 
 upgrades.silenceWarnings();
 
-async function migrate(env = {}) {
-
+async function migrate(config = {}, env = {}) {
     const provider = env.provider || ethers.provider;
     const signer   = env.signer   || await ethers.getSigner();
     const network  = await ethers.provider.getNetwork();
@@ -27,12 +26,19 @@ async function migrate(env = {}) {
         { ...opts },
     );
     DEBUG(`VestingFactory: ${factory.address }`);
+
+    return {
+        contracts: {
+            factory
+        }
+    }
 }
 
 if (require.main === module) {
+    const CONFIG = require('./config');
     const ENV = require('./env');
 
-    migrate(ENV)
+    migrate(CONFIG, ENV)
         .then(() => process.exit(0))
         .catch(error => {
             console.error(error);
