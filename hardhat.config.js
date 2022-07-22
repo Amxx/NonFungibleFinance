@@ -96,7 +96,7 @@ Object.assign(
     // xdai
     'xdai', 'sokol',
 		// neon
-		'neon', 'neonTestnet',
+		'neon', 'neonDevnet', 'neonTestnet',
 		// chronos
 		'cronos', 'cronosTestnet',
   ].map(name => [ name, { url: argv[`${name}Node`], accounts } ]).filter(([, { url} ]) => url)),
