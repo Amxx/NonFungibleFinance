@@ -95,10 +95,10 @@ Object.assign(
     'moonbeam', 'moonriver', 'moonbaseAlpha',
     // xdai
     'xdai', 'sokol',
-		// neon
-		'neon', 'neonDevnet', 'neonTestnet',
-		// chronos
-		'cronos', 'cronosTestnet',
+    // neon
+    'neon', 'neonDevnet', 'neonTestnet',
+    // chronos
+    'cronos', 'cronosTestnet',
   ].map(name => [ name, { url: argv[`${name}Node`], accounts } ]).filter(([, { url} ]) => url)),
   argv.slow && { hardhat: { mining: { auto: false, interval: [3000, 6000] }}}, // Simulate a slow chain locally
   argv.fork && { hardhat: { forking: { url: argv.fork }}}, // Simulate a mainnet fork
