@@ -10,7 +10,6 @@ const TransferModal = (props) => {
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
 
 	React.useEffect(() => {
-		instance?.removeAllListeners();
 		setInstance(new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer));
 	}, [ props.config, props.signer ]);
 

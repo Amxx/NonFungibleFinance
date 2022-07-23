@@ -7,11 +7,10 @@ import { PlusSquareOutlined } from '@ant-design/icons';
 import ArtefactFactory from '../../abi/VestingFactory.json';
 
 const DeployModal = (props) => {
-	const [ instance,       setInstance   ] = React.useState(null);
+	const [ instance,       setInstance       ] = React.useState(null);
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
 
 	React.useEffect(() => {
-		instance?.removeAllListeners();
 		setInstance(new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer));
 	}, [ props.config, props.signer ]);
 

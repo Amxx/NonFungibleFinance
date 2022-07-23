@@ -5,9 +5,9 @@ import { ethers } from 'ethers';
 import { Card, List, Popover, Progress, Space, Table } from 'antd';
 import { AccountItem } from 'ethereum-react-components';
 
-import TransferModal    from './modals/TransferModal';
-import ReleaseModal     from './modals/ReleaseModal';
-import ArtefactTemplate from '../abi/VestingTemplate.json';
+import TransferModal    from '../modals/TransferModal';
+import ReleaseModal     from '../modals/ReleaseModal';
+import ArtefactTemplate from '../../abi/VestingTemplate.json';
 
 const ViewVault = (props) => {
 	const [ instance,   setInstance   ] = React.useState(null);
@@ -18,7 +18,6 @@ const ViewVault = (props) => {
 	const [ duration,   setDuration   ] = React.useState(0);
 
 	React.useEffect(() => {
-		instance?.removeAllListeners();
 		setInstance(new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer));
 	}, [ props.address, props.signer ]);
 

@@ -3,13 +3,13 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 
 import DeployModal from './modals/DeployModal';
-import View        from './View';
+import VaultList   from './views/VaultList';
 
 const Main = (props) => {
 	return (
 		<Container className='d-grid gap-2'>
 			<DeployModal {...props}/>
-			<View        {...props}/>
+			<VaultList   {...props}/>
 		</Container>
 	);
 };

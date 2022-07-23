@@ -3,7 +3,7 @@ import { ethers         } from 'ethers';
 import { EventEmitter   } from 'fbemitter';
 
 import CONFIG            from '../config';
-import Notifications     from './Notifications';
+import Notifications     from './utils/Notifications';
 import Header            from './Header';
 import Main              from './Main';
 import UnsuportedNetwork from './UnsuportedNetwork';
@@ -12,18 +12,21 @@ import UnsuportedNetwork from './UnsuportedNetwork';
 const Loading = () => undefined;
 
 const Core = () => {
-	const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-	const [ emitter,          ] = React.useState(new EventEmitter());
-	const [ signer, setSigner ] = React.useState(null);
-	const [ config, setConfig ] = React.useState(null);
+	const [ emitter,              ] = React.useState(new EventEmitter());
+	const [ provider, setProvider ] = React.useState(null);
+	const [ signer, setSigner     ] = React.useState(null);
+	const [ config, setConfig     ] = React.useState(null);
 
 	React.useEffect(() => {
-		window.ethereum.on('chainChanged', () => window.location.reload(false));
-		window.ethereum.on('accountsChanged', (address) => setSigner(provider.getSigner(address)));
+		const _provider = new ethers.providers.Web3Provider(window.ethereum);
 
-		provider.getNetwork().then(({ chainId }) => setConfig(CONFIG[Number(chainId)] || {}));
-		provider.send("eth_requestAccounts", []).then(([ address ]) => setSigner(provider.getSigner(address)));
+		setProvider(_provider);
+		_provider.getNetwork().then(({ chainId }) => setConfig(CONFIG[Number(chainId)] || {}));
+		_provider.send("eth_requestAccounts", []).then(([ address ]) => setSigner(_provider.getSigner(address)));
+
+		window.ethereum.on('chainChanged', () => window.location.reload(false));
+		window.ethereum.on('accountsChanged', (address) => setSigner(_provider.getSigner(address)));
 	}, []);
 
 	React.useEffect(() => {

@@ -3,17 +3,16 @@ import { ethers } from 'ethers';
 
 import { List, Mentions, Switch } from 'antd';
 
-import ViewVault        from './ViewVault';
-import ArtefactFactory  from '../abi/VestingFactory.json';
+import ViewVault        from './Vault';
+import ArtefactFactory  from '../../abi/VestingFactory.json';
 
-const View = (props) => {
+const VaultList = (props) => {
 	const [ instance,   setInstance   ] = React.useState(null);
 	const [ vaults,     setVaults     ] = React.useState([]);
 	const [ releasable, setReleasable ] = React.useState(true);
 	const [ user,       setUser       ] = React.useState("");
 
 	React.useEffect(() => {
-		instance?.removeAllListeners();
 		setInstance(new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer));
 	}, [ props.config, props.signer ]);
 
@@ -57,4 +56,4 @@ const View = (props) => {
 	</>;
 }
 
-export default View;
+export default VaultList;

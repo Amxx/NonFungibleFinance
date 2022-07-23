@@ -10,7 +10,6 @@ const ReleaseModal = (props) => {
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
 
 	React.useEffect(() => {
-		instance?.removeAllListeners();
 		setInstance(new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer));
 	}, [ props.address, props.signer ]);
 

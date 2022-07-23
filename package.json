@@ -1,16 +1,33 @@
 {
-  "name": "@amxx/vesting-vault",
-  "version": "1.0.0",
-  "author": "Hadrien Croubois (@Amxx)",
-  "license": "MIT",
-  "scripts": {
-    "compile": "hardhat compile",
-    "test": "hardhat test",
-    "coverage": "env COVERAGE=true hardhat coverage",
-    "deploy": "hardhat run script/migrate.js"
-  },
-  "dependencies": {
-    "@amxx/hre": "^0.1.0-rc.0",
-    "@openzeppelin/contracts": "^4.7.1"
-  }
+	"private": true,
+	"name": "@NFF/monorepo",
+	"author": "Hadrien Croubois (@amxx)",
+	"version": "0.0.1",
+	"license": "MIT",
+	"workspaces": [
+		"*"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Amxx/NFWallets.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Amxx/NFWallets.git/issues"
+	},
+	"scripts": {
+		"build": "yarn wsrun --stages --fast-exit --report build",
+		"test": "yarn wsrun --serial --fast-exit --report test",
+		"clean": "yarn wsrun --report clean"
+	},
+	"engines": {
+		"node": ">=10.9",
+		"yarn": ">=1.9.4"
+	},
+	"dependencies": {
+		"npm-check": "^5.9.0",
+		"wsrun": "^5.2.0"
+	},
+	"devDependencies": {
+		"chalk": "^4.0.0"
+	}
 }
