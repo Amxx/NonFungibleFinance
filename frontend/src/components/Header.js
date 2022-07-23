@@ -42,14 +42,13 @@ const Header = (props) => {
 					<Navbar.Brand href='#'>Vesting Vault</Navbar.Brand>
 					<Navbar.Toggle />
 					<Navbar.Collapse className='justify-content-end'>
-						<NavDropdown title="Network" style={{color:'white'}}>
+						<NavDropdown title="Network" className='mx-3' style={{color:'white'}}>
 							{
 								Object.entries(CONFIG).map(([ id, details ]) =>
 									<NavDropdown.Item key={id} onClick={() => changeNetwork(id, details) }>{ details.name }</NavDropdown.Item>
 								)
 							}
 						</NavDropdown>
-						~
 						<Nav.Link onClick={  props.disconnect } style={{color:'white'}}>Disconnect</Nav.Link>
 					</Navbar.Collapse>
 				</Container>

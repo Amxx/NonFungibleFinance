@@ -18,8 +18,8 @@ const ReleaseModal = (props) => {
 	  setIsModalVisible(false);
 	};
 
-	const transfer = () => {
-		instance[props.asset ? "release(address)" : "release()"](...[ props.asset ].filter(Boolean))
+	const transfer = ({ asset }) => {
+		instance[asset ? "release(address)" : "release()"](...[ asset ].filter(Boolean))
 		.then(promise => {
 			props.emitter.emit('Notify', 'info', 'Release transaction sent');
 			hideModal();
@@ -35,7 +35,7 @@ const ReleaseModal = (props) => {
 
 	return <>
 		<Button variant='primary' onClick={showModal} disabled={props.disabled}>
-			Release
+			{props.children}
 		</Button>
 		<Modal
 			title="Realease vested assets"
@@ -56,6 +56,22 @@ const ReleaseModal = (props) => {
 				>
 					<Input disabled />
 				</Form.Item>
+
+				{
+					props.erc20 &&
+					<Form.Item
+						label="ERC20 address"
+						name="asset"
+						rules={[
+							{
+								message: 'Please enter a valid ERC20 address',
+								validator: (_, value) => ethers.utils.isAddress(value) ? Promise.resolve() : Promise.reject('Invalid address'),
+							},
+						]}
+					>
+						<Input/>
+					</Form.Item>
+				}
 
 				<Form.Item
 					wrapperCol={{ offset: 8, span: 16 }}

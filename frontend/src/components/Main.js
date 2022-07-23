@@ -1,7 +1,8 @@
 import React      from 'react';
 
-import { Container     } from 'react-bootstrap';
-import { Button, Modal } from 'antd';
+import { Container          } from 'react-bootstrap';
+import { Button, Modal      } from 'antd';
+import { PlusSquareOutlined } from '@ant-design/icons';
 
 import View       from './View';
 import DeployForm from './DeployForm';
@@ -19,8 +20,8 @@ const Main = (props) => {
 
 	return (
 		<Container className='d-grid gap-2'>
-			<Button variant='primary' className='my-4' onClick={showModal}>
-				Create new vault
+			<Button variant='primary' className='d-inline-flex align-items-center justify-content-center my-4' onClick={showModal}>
+				<PlusSquareOutlined /> Create new vault
 			</Button>
 
 			<Modal
