@@ -6,9 +6,13 @@ import { Button, Modal, Form, Input } from 'antd';
 import ArtefactFactory from '../abi/VestingFactory.json';
 
 const TransferModal = (props) => {
-	const instance = new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer);
-
+	const [ instance,       setInstance       ] = React.useState(null);
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
+
+	React.useEffect(() => {
+		instance?.removeAllListeners();
+		setInstance(new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer));
+	}, [ props.config, props.signer ]);
 
 	const showModal = () => {
 	  setIsModalVisible(true);
@@ -38,7 +42,7 @@ const TransferModal = (props) => {
 	};
 
 	return <>
-		<Button variant='primary' onClick={showModal} disabled={props.disabled}>
+		<Button onClick={showModal} disabled={props.disabled}>
 			Transfer
 		</Button>
 		<Modal

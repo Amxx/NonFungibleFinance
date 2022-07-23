@@ -1,52 +1,24 @@
 import React      from 'react';
 import { ethers } from 'ethers';
 
-import { List, Space, Switch } from 'antd';
-import { AccountItem } from 'ethereum-react-components';
+import { List, Mentions, Switch } from 'antd';
 
-import TransferModal    from './TransferModal';
-import ReleaseModal     from './ReleaseModal';
+import ViewVault        from './ViewVault';
 import ArtefactFactory  from '../abi/VestingFactory.json';
-import ArtefactTemplate from '../abi/VestingTemplate.json';
-
-const ViewVault = (props) => {
-    const instance = new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer);
-
-    const [ balance,    setBalance    ] = React.useState(null);
-    const [ releasable, setReleasable ] = React.useState(null);
-
-    React.useEffect(() => {
-        props.provider.getBalance(props.address)
-			.then(ethers.utils.formatEther)
-			.then(setBalance);
-
-        instance['releaseable()']()
-			.then(ethers.utils.formatEther)
-			.then(setReleasable);
-
-    }, [ instance, props.address, props.provider ]);
-
-    return (
-        <List.Item>
-            <AccountItem name={props.address} address={props.address} balance={props.releasable ? releasable : balance} style={{ width: 'auto'}}/>
-            <Space>
-                <ReleaseModal address={props.address}       {...props}>Release (Ether)</ReleaseModal>
-                <ReleaseModal address={props.address} erc20 {...props}>Release (ERC20)</ReleaseModal>
-                <TransferModal address={props.address} disabled={props.owner !== props.signer.address} {...props}/>
-            </Space>
-        </List.Item>
-    );
-}
 
 const View = (props) => {
-	const instance = new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer);
-
+	const [ instance,   setInstance   ] = React.useState(null);
 	const [ vaults,     setVaults     ] = React.useState([]);
 	const [ releasable, setReleasable ] = React.useState(true);
-	const [ owned,      setOwned      ] = React.useState(false);
+	const [ user,       setUser       ] = React.useState("");
 
 	React.useEffect(() => {
-		instance.queryFilter(instance.filters.Transfer(null, null))
+		instance?.removeAllListeners();
+		setInstance(new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer));
+	}, [ props.config, props.signer ]);
+
+	React.useEffect(() => {
+		instance?.queryFilter(instance.filters.Transfer(null, null))
 		.then(logs =>
 			logs
 			.sort((a, b) => b.blockNumber - a.blockNumber || b.transactionIndex - a.TransactionIndex)
@@ -59,18 +31,27 @@ const View = (props) => {
 			}))
 		)
 		.then(setVaults)
-	}, [ props, instance ]);
+	}, [ instance ]);
 
 	return <>
-		<div className='d-flex justify-content-center'>
-			<Space>
-				<Switch unCheckedChildren="Total"      checkedChildren="Releasable" checked={releasable} onChange={setReleasable} style={{width: "200px"}}/>
-				<Switch unCheckedChildren="All vaults" checkedChildren="My vaults"  checked={owned}      onChange={setOwned}      style={{width: "200px"}}/>
-			</Space>
+		<div className='d-flex align-items-center justify-content-center'>
+			<Switch unCheckedChildren="Total" checkedChildren="Releasable" checked={releasable} onChange={setReleasable} style={{width: "200px"}}/>
+			<Mentions autoSize={{minRows: 1, maxRows: 1}} prefix={['0x']} placeholder="Filter by owner" onChange={setUser} className='mx-2'>
+			{
+				vaults
+					.map(ev => ev.owner.slice(2))
+					.filter((e, i, a) => a.indexOf(e) === i)
+					.map((value) => (
+						<Mentions.Option key={value} value={value}>
+							{value}
+						</Mentions.Option>
+					))
+			}
+			</Mentions>
 		</div>
 		<List
 			itemLayout="horizontal"
-			dataSource={vaults.filter(item => item.owner === props.signer.address || !owned)}
+			dataSource={vaults.filter(item => !user || item.owner.startsWith(user.trim() || props.signer.address))}
 			renderItem={item => <ViewVault releasable={releasable} {...item} {...props}/>}
 		/>
 	</>;

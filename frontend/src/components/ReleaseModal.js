@@ -6,9 +6,13 @@ import { Button, Modal, Form, Input } from 'antd';
 import ArtefactTemplate from '../abi/VestingTemplate.json';
 
 const ReleaseModal = (props) => {
-	const instance = new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer);
-
+	const [ instance,       setInstance       ] = React.useState(null);
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
+
+	React.useEffect(() => {
+		instance?.removeAllListeners();
+		setInstance(new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer));
+	}, [ props.address, props.signer ]);
 
 	const showModal = () => {
 	  setIsModalVisible(true);
@@ -34,7 +38,7 @@ const ReleaseModal = (props) => {
 	};
 
 	return <>
-		<Button variant='primary' onClick={showModal} disabled={props.disabled}>
+		<Button onClick={showModal} disabled={props.disabled}>
 			{props.children}
 		</Button>
 		<Modal

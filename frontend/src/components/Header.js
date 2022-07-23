@@ -6,7 +6,11 @@ import Nav         from 'react-bootstrap/Nav';
 import Navbar      from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import { Space }   from 'antd';
+
 import CONFIG from '../config';
+
+import { GithubFilled, TwitterCircleFilled } from '@ant-design/icons';
 
 const Header = (props) => {
 	const changeNetwork = async (id, details) => {
@@ -38,10 +42,10 @@ const Header = (props) => {
 	return props.signer
 		?
 			<Navbar bg='dark' variant='dark'>
-				<Container>
+				<Container fluid>
 					<Navbar.Brand href='#'>Vesting Vault</Navbar.Brand>
 					<Navbar.Toggle />
-					<Navbar.Collapse className='justify-content-end'>
+					<Navbar.Collapse className='justify-content-start'>
 						<NavDropdown title="Network" className='mx-3' style={{color:'white'}}>
 							{
 								Object.entries(CONFIG).map(([ id, details ]) =>
@@ -50,6 +54,12 @@ const Header = (props) => {
 							}
 						</NavDropdown>
 						<Nav.Link onClick={  props.disconnect } style={{color:'white'}}>Disconnect</Nav.Link>
+					</Navbar.Collapse>
+					<Navbar.Collapse className='justify-content-end'>
+						<Space>
+							<Nav.Link href='https://twitter.com/amxx'              style={{color:'white'}}><TwitterCircleFilled /></Nav.Link>
+							<Nav.Link href='https://github.com/Amxx/VestingVaults' style={{color:'white'}}><GithubFilled /></Nav.Link>
+						</Space>
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>

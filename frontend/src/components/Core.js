@@ -26,23 +26,32 @@ const Core = () => {
 	const connect = () => {
 		window.ethereum.on('chainChanged',    (chainId)  => changeChain(chainId));
 		window.ethereum.on('accountsChanged', (accounts) => changeSigner(accounts));
-
 		provider.getNetwork().then(({ chainId }) => changeChain(chainId));
-		provider.send("eth_requestAccounts", []).then(accounts => changeSigner(accounts));
 	}
 
 	const disconnect = () => {
-		setSigner(null);
 		setConfig(null);
+		setSigner(null);
 	}
 
 	const changeChain = (chainId) => {
+		setSigner(null);
 		setConfig(CONFIG[Number(chainId)] || {});
+
+		provider.send("eth_requestAccounts", [])
+			.then(accounts => changeSigner(accounts));
 	}
 
 	const changeSigner = ([ address ]) => {
-		setSigner(Object.assign(provider.getSigner(), { address: ethers.utils.getAddress(address) }));
+		setSigner(Object.assign(
+			provider.getSigner(),
+			{ address: ethers.utils.getAddress(address) },
+		));
 	}
+
+	React.useEffect(() => {
+		console.info({ chain: config?.name, address: signer?.address })
+	}, [ config, signer ])
 
 	return <>
 		<Notifications emitter={emitter}/>
@@ -54,7 +63,7 @@ const Core = () => {
 			disconnect={disconnect}
 		/>
 		{
-			config && ( config.name
+			signer && config?.name
 				?
 					<Main
 						emitter={emitter}
@@ -64,7 +73,6 @@ const Core = () => {
 					/>
 				:
 					<UnsuportedNetwork/>
-			)
 		}
 	</>
 	;
