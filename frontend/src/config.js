@@ -13,6 +13,11 @@ export default {
 		rpcs: [ 'https://evm-t3.cronos.org' ],
 		factory: '0x923359CA476cD17A2502bC22857e6b61809cB13C',
 	},
+	44787: {
+		name: 'celo (alfajores)',
+		rpcs: [ 'https://alfajores-forno.celo-testnet.org' ],
+		factory: '0xBb1D7c823408d0425a676430589474eD9171eAd2',
+	},
 	80001: {
 		name: 'mumbai',
 		rpcs: [ 'https://matic-mumbai.chainstacklabs.com' ],
