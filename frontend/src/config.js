@@ -1,4 +1,4 @@
-export default {
+const CONFIG = {
 	5: {
 		name: 'goerli',
 		factory: '0x3c912349aB2AcA8D6a573a34acfA9Ff26D49B7f9',
@@ -29,3 +29,5 @@ export default {
 		factory: '0x6BDb65A4b0B1A21C094a5D0531C9736611D160A8',
 	},
 };
+
+export default CONFIG;

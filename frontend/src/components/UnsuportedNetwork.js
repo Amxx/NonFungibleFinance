@@ -40,7 +40,7 @@ const UnsuportedNetwork = () => {
 				{
 					Object.entries(CONFIG).map(([ id, details ]) =>
 						<li key={id}>
-							<a href='#' onClick={() => changeNetwork(id, details)}>
+							<a href='/' onClick={() => changeNetwork(id, details)}>
 								{details.name}
 							</a>
 						</li>
