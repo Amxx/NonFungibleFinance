@@ -6,7 +6,7 @@ const CONFIG = {
 	100: {
 		name: 'gnosis',
 		rpcs: [ 'https://rpc.gnosischain.com' ],
-		// factory: '0xf09FB50ee40129526358C9a704EB2AAA96bc40c2',
+		factory: '0x6769b73598da4e4d697209aa400f05ed2217d525',
 	},
 	338: {
 		name: 'cronos (testnet)',

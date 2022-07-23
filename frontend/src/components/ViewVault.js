@@ -5,8 +5,8 @@ import { ethers } from 'ethers';
 import { Card, List, Popover, Progress, Space, Table } from 'antd';
 import { AccountItem } from 'ethereum-react-components';
 
-import TransferModal    from './TransferModal';
-import ReleaseModal     from './ReleaseModal';
+import TransferModal    from './modals/TransferModal';
+import ReleaseModal     from './modals/ReleaseModal';
 import ArtefactTemplate from '../abi/VestingTemplate.json';
 
 const ViewVault = (props) => {
@@ -76,7 +76,7 @@ const ViewVault = (props) => {
 				<Space>
 					<ReleaseModal address={props.address}       {...props}>Release (Ether)</ReleaseModal>
 					<ReleaseModal address={props.address} erc20 {...props}>Release (ERC20)</ReleaseModal>
-					<TransferModal address={props.address} disabled={props.owner !== props.signer.address} {...props}/>
+					<TransferModal address={props.address} disabled={props.owner !== props.signer._address} {...props}/>
 				</Space>
 			</List.Item>
 		</Popover>

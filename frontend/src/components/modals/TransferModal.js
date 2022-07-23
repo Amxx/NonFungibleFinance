@@ -3,16 +3,16 @@ import { ethers } from 'ethers';
 
 import { Button, Modal, Form, Input } from 'antd';
 
-import ArtefactTemplate from '../abi/VestingTemplate.json';
+import ArtefactFactory from '../../abi/VestingFactory.json';
 
-const ReleaseModal = (props) => {
+const TransferModal = (props) => {
 	const [ instance,       setInstance       ] = React.useState(null);
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
 
 	React.useEffect(() => {
 		instance?.removeAllListeners();
-		setInstance(new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer));
-	}, [ props.address, props.signer ]);
+		setInstance(new ethers.Contract(props.config.factory, ArtefactFactory.abi, props.signer));
+	}, [ props.config, props.signer ]);
 
 	const showModal = () => {
 	  setIsModalVisible(true);
@@ -22,15 +22,19 @@ const ReleaseModal = (props) => {
 	  setIsModalVisible(false);
 	};
 
-	const transfer = ({ asset }) => {
-		instance[asset ? "release(address)" : "release()"](...[ asset ].filter(Boolean))
+	const transfer = ({ receiver }) => {
+		instance.transferFrom(
+			props.signer._address,
+			receiver,
+			props.address,
+		)
 		.then(promise => {
-			props.emitter.emit('Notify', 'info', 'Release transaction sent');
+			props.emitter.emit('Notify', 'info', 'Transfer transaction sent');
 			hideModal();
 			return promise.wait()
 		})
 		.then(tx => {
-			props.emitter.emit('Notify', 'success', 'Assets released');
+			props.emitter.emit('Notify', 'success', 'Vault transfered');
 		})
 		.catch(error => {
 			props.emitter.emit('Notify', 'error', error.message);
@@ -39,10 +43,10 @@ const ReleaseModal = (props) => {
 
 	return <>
 		<Button onClick={showModal} disabled={props.disabled}>
-			{props.children}
+			Transfer
 		</Button>
 		<Modal
-			title="Realease vested assets"
+			title="Transfer ownership of vault"
 			visible={isModalVisible}
 			onOk={hideModal}
 			onCancel={hideModal}
@@ -58,24 +62,22 @@ const ReleaseModal = (props) => {
 					label="Vault"
 					name="vault"
 				>
-					<Input disabled />
+					<Input disabled/>
 				</Form.Item>
 
-				{
-					props.erc20 &&
-					<Form.Item
-						label="ERC20 address"
-						name="asset"
-						rules={[
-							{
-								message: 'Please enter a valid ERC20 address',
-								validator: (_, value) => ethers.utils.isAddress(value) ? Promise.resolve() : Promise.reject('Invalid address'),
-							},
-						]}
-					>
-						<Input/>
-					</Form.Item>
-				}
+				<Form.Item
+					label="Receiver"
+					name="receiver"
+					rules={[
+						{
+							required: true,
+							message: 'Please enter a valid eth address',
+							validator: (_, value) => ethers.utils.isAddress(value) ? Promise.resolve() : Promise.reject('Invalid address'),
+						},
+					]}
+				>
+					<Input />
+				</Form.Item>
 
 				<Form.Item
 					wrapperCol={{ offset: 8, span: 16 }}
@@ -89,4 +91,4 @@ const ReleaseModal = (props) => {
 	</>;
 }
 
-export default ReleaseModal;
+export default TransferModal;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container } from 'react-bootstrap';
 
-import DeployModal from './DeployModal';
+import DeployModal from './modals/DeployModal';
 import View        from './View';
 
 const Main = (props) => {

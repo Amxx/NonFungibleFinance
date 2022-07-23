@@ -8,6 +8,9 @@ import Header            from './Header';
 import Main              from './Main';
 import UnsuportedNetwork from './UnsuportedNetwork';
 
+
+const Loading = () => undefined;
+
 const Core = () => {
 	const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -16,41 +19,19 @@ const Core = () => {
 	const [ config, setConfig ] = React.useState(null);
 
 	React.useEffect(() => {
-		config
-			? config.factory
-				? emitter.emit('Notify', 'success', `Connected to ${config.name}`)
-				: emitter.emit('Notify', 'warning', 'Unsupported network')
-			: emitter.emit('Notify', 'warning', 'You are disconnect')
-	}, [ emitter, config ]);
+		window.ethereum.on('chainChanged', () => window.location.reload(false));
+		window.ethereum.on('accountsChanged', (address) => setSigner(provider.getSigner(address)));
 
-	const connect = () => {
-		window.ethereum.on('chainChanged',    (chainId)  => changeChain(chainId));
-		window.ethereum.on('accountsChanged', (accounts) => changeSigner(accounts));
-		provider.getNetwork().then(({ chainId }) => changeChain(chainId));
-	}
-
-	const disconnect = () => {
-		setConfig(null);
-		setSigner(null);
-	}
-
-	const changeChain = (chainId) => {
-		setSigner(null);
-		setConfig(CONFIG[Number(chainId)] || {});
-
-		provider.send("eth_requestAccounts", [])
-			.then(accounts => changeSigner(accounts));
-	}
-
-	const changeSigner = ([ address ]) => {
-		setSigner(Object.assign(
-			provider.getSigner(),
-			{ address: ethers.utils.getAddress(address) },
-		));
-	}
+		provider.getNetwork().then(({ chainId }) => setConfig(CONFIG[Number(chainId)] || {}));
+		provider.send("eth_requestAccounts", []).then(([ address ]) => setSigner(provider.getSigner(address)));
+	}, []);
 
 	React.useEffect(() => {
-		console.info({ chain: config?.name, address: signer?.address })
+		config?.factory &&  emitter.emit('Notify', 'success', `Connected to ${config.name}`);
+	}, [ emitter, config ]);
+
+	React.useEffect(() => {
+		console.info({ chain: config?.name, address: signer?._address })
 	}, [ config, signer ])
 
 	return <>
@@ -59,20 +40,13 @@ const Core = () => {
 			provider={provider}
 			signer={signer}
 			config={config}
-			connect={connect}
-			disconnect={disconnect}
 		/>
 		{
-			signer && config?.name
-				?
-					<Main
-						emitter={emitter}
-						provider={provider}
-						signer={signer}
-						config={config}
-					/>
-				:
-					<UnsuportedNetwork/>
+			signer && config ? (
+				config?.factory
+				? <Main emitter={emitter} provider={provider} signer={signer} config={config}/>
+				: <UnsuportedNetwork/>
+			) : <Loading/>
 		}
 	</>
 	;

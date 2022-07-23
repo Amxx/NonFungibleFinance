@@ -51,7 +51,7 @@ const View = (props) => {
 		</div>
 		<List
 			itemLayout="horizontal"
-			dataSource={vaults.filter(item => !user || item.owner.startsWith(user.trim() || props.signer.address))}
+			dataSource={vaults.filter(item => !user || item.owner.startsWith(user.trim()))}
 			renderItem={item => <ViewVault releasable={releasable} {...item} {...props}/>}
 		/>
 	</>;

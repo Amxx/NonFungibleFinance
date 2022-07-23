@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { Button, DatePicker, Form, Input, Modal } from 'antd';
 import { PlusSquareOutlined } from '@ant-design/icons';
 
-import ArtefactFactory from '../abi/VestingFactory.json';
+import ArtefactFactory from '../../abi/VestingFactory.json';
 
 const DeployModal = (props) => {
 	const [ instance,       setInstance   ] = React.useState(null);
@@ -63,7 +63,7 @@ const DeployModal = (props) => {
 				<Form
 					labelCol={{ span: 8 }}
 					wrapperCol={{ span: 16 }}
-					initialValues={{ receiver: props.signer.address }}
+					initialValues={{ receiver: props.signer._address }}
 					onFinish={deploy}
 				>
 					<Form.Item
