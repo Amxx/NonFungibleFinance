@@ -6,10 +6,9 @@ import Navbar      from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { Space }   from 'antd';
+import { CheckCircleOutlined, GithubFilled, TwitterCircleFilled } from '@ant-design/icons';
 
 import CONFIG from '../../config';
-
-import { CheckCircleOutlined, GithubFilled, TwitterCircleFilled } from '@ant-design/icons';
 
 const Header = (props) => {
 	const changeNetwork = async (id, details) => {

@@ -41,8 +41,12 @@ const TransferModal = (props) => {
 	};
 
 	return <>
-		<Button onClick={showModal} disabled={props.disabled}>
-			Transfer
+		<Button
+			onClick={showModal}
+			className='d-flex align-items-center'
+			{...props}
+		>
+			{props.children}
 		</Button>
 		<Modal
 			title="Transfer ownership of vault"

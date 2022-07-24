@@ -1,10 +1,11 @@
 import React      from 'react';
-import moment     from 'moment';
 import { ethers } from 'ethers';
 
-import { Card, List, Popover, Progress, Space, Table } from 'antd';
 import { AccountItem } from 'ethereum-react-components';
+import { List, Space } from 'antd';
+import { DownloadOutlined, SearchOutlined, SendOutlined } from '@ant-design/icons';
 
+import DetailsModal     from '../modals/DetailsModal';
 import TransferModal    from '../modals/TransferModal';
 import ReleaseModal     from '../modals/ReleaseModal';
 import ArtefactTemplate from '../../abi/VestingTemplate.json';
@@ -40,49 +41,15 @@ const ViewVault = (props) => {
 	}, [ instance, props.address, props.provider ]);
 
 	return (
-		<Popover
-			trigger='click'
-			content={
-				<Card title="Vesting details" bordered={false}>
-					<Progress
-						percent={ (100 * (new moment().unix() - start) / duration).toFixed(2) }
-						success={{ percent: (100 * (cliff - start) / duration).toFixed(2) }}
-					/>
-					<Table
-						dataSource={[
-							{ key: 'Chain',   value: props.config.name              },
-							{ key: 'Address', value: <code>{ props.address }</code> },
-							{ key: 'Owner',   value: <code>{ props.owner   }</code> },
-							...[
-								{ key: 'Start',  value: start               },
-								{ key: 'Cliff',  value: cliff               },
-								{ key: 'Finish', value: start+duration      },
-								{ key: 'Now',    value: new moment().unix() },
-							]
-							.sort((a, b) => a.value - b.value)
-							.map(entry => Object.assign(entry, { value: new moment(entry.value * 1000).toString() }))
-						]}
-						columns={[
-							{ dataIndex: "key", render: text => <b>{text}: </b> },
-							{ dataIndex: "value" },
-						]}
-						showHeader={false}
-						pagination={false}
-						size='small'
-					/>
-
-				</Card>
-			}
-		>
-			<List.Item style={{cursor:'pointer'}}>
-				<AccountItem name={props.address} address={props.address} balance={props.releasable ? releasable : balance} style={{ width: 'auto'}}/>
-				<Space>
-					<ReleaseModal address={props.address}       {...props}>Release (Ether)</ReleaseModal>
-					<ReleaseModal address={props.address} erc20 {...props}>Release (ERC20)</ReleaseModal>
-					<TransferModal address={props.address} disabled={props.owner !== props.signer._address} {...props}/>
-				</Space>
-			</List.Item>
-		</Popover>
+		<List.Item style={{cursor:'pointer'}}>
+			<AccountItem name={props.address} address={props.address} balance={props.releasable ? releasable : balance} style={{ width: 'auto'}}/>
+			<Space>
+				<DetailsModal  address={props.address} details={{ start, cliff, duration}}              icon={<SearchOutlined  />} {...props}>Details         </DetailsModal>
+				<ReleaseModal  address={props.address}                                                  icon={<DownloadOutlined/>} {...props}>Release (Ether) </ReleaseModal>
+				<ReleaseModal  address={props.address} erc20                                            icon={<DownloadOutlined/>} {...props}>Release (ERC20) </ReleaseModal>
+				<TransferModal address={props.address} disabled={props.owner !== props.signer._address} icon={<SendOutlined    />} {...props}>Transfer</TransferModal>
+			</Space>
+		</List.Item>
 	);
 }
 

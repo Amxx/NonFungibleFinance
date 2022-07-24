@@ -54,7 +54,7 @@ const DeployModal = (props) => {
 				block
 				onClick={showModal}
 				icon={<PlusSquareOutlined />}
-				className='d-inline-flex align-items-center justify-content-center my-4'
+				className='d-flex align-items-center justify-content-center my-4'
 			>
 				Create new vault
 			</Button>

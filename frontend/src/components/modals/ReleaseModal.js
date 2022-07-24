@@ -37,7 +37,11 @@ const ReleaseModal = (props) => {
 	};
 
 	return <>
-		<Button onClick={showModal} disabled={props.disabled}>
+		<Button
+			onClick={showModal}
+			className='d-flex align-items-center'
+			{...props}
+		>
 			{props.children}
 		</Button>
 		<Modal
