@@ -4,8 +4,8 @@ import { EventEmitter   } from 'fbemitter';
 
 import CONFIG            from '../config';
 import Notifications     from './utils/Notifications';
-import Loading           from './Loading';
-import Main              from './Main';
+import Main              from './layout/Main';
+import Loading           from './layout/Loading';
 import UnsuportedNetwork from './UnsuportedNetwork';
 
 const Core = () => {

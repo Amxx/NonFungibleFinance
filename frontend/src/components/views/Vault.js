@@ -50,7 +50,9 @@ const ViewVault = (props) => {
 					/>
 					<Table
 						dataSource={[
-							{ key: 'Owner', value: <code>{props.owner}</code> },
+							{ key: 'Chain',   value: props.config.name              },
+							{ key: 'Address', value: <code>{ props.address }</code> },
+							{ key: 'Owner',   value: <code>{ props.owner   }</code> },
 							...[
 								{ key: 'Start',  value: start               },
 								{ key: 'Cliff',  value: cliff               },

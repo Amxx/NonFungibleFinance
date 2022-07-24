@@ -32,28 +32,30 @@ const VaultList = (props) => {
 		.then(setVaults)
 	}, [ instance ]);
 
-	return <>
-		<div className='d-flex align-items-center justify-content-center'>
-			<Switch unCheckedChildren="Total" checkedChildren="Releasable" checked={releasable} onChange={setReleasable} style={{width: "200px"}}/>
-			<Mentions autoSize={{minRows: 1, maxRows: 1}} prefix={['0x']} placeholder="Filter by owner" onChange={setUser} className='mx-2'>
-			{
-				vaults
-					.map(ev => ev.owner.slice(2))
-					.filter((e, i, a) => a.indexOf(e) === i)
-					.map((value) => (
-						<Mentions.Option key={value} value={value}>
-							{value}
-						</Mentions.Option>
-					))
-			}
-			</Mentions>
-		</div>
-		<List
-			itemLayout="horizontal"
-			dataSource={vaults.filter(item => !user || item.owner.startsWith(user.trim()))}
-			renderItem={item => <ViewVault releasable={releasable} {...item} {...props}/>}
-		/>
-	</>;
+	return (
+		<>
+			<div className='d-flex align-items-center justify-content-center mb-3'>
+				<Switch unCheckedChildren="Total" checkedChildren="Releasable" checked={releasable} onChange={setReleasable} style={{width: "200px"}}/>
+				<Mentions autoSize={{minRows: 1, maxRows: 1}} prefix={['0x']} placeholder="Filter by owner" onChange={setUser} className='mx-2'>
+				{
+					vaults
+						.map(ev => ev.owner.slice(2))
+						.filter((e, i, a) => a.indexOf(e) === i)
+						.map((value) => (
+							<Mentions.Option key={value} value={value}>
+								{value}
+							</Mentions.Option>
+						))
+				}
+				</Mentions>
+			</div>
+			<List
+				itemLayout="horizontal"
+				dataSource={vaults.filter(item => !user || item.owner.startsWith(user.trim()))}
+				renderItem={item => <ViewVault releasable={releasable} {...item} {...props}/>}
+			/>
+		</>
+	);
 }
 
 export default VaultList;

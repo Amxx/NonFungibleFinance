@@ -7,11 +7,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { Space }   from 'antd';
 
-import CONFIG from '../config';
+import CONFIG from '../../config';
 
-import { GithubFilled, TwitterCircleFilled } from '@ant-design/icons';
+import { CheckCircleOutlined, GithubFilled, TwitterCircleFilled } from '@ant-design/icons';
 
-const Header = () => {
+const Header = (props) => {
 	const changeNetwork = async (id, details) => {
 		try {
 			await window.ethereum.request({
@@ -40,14 +40,21 @@ const Header = () => {
 
 	return (
 		<Navbar bg='dark' variant='dark'>
-			<Container fluid>
+			<Container>
 				<Navbar.Brand href='#'>NFF - Vesting Vaults</Navbar.Brand>
 				<Navbar.Toggle />
 				<Navbar.Collapse className='justify-content-start'>
 					<NavDropdown title="Network" className='mx-3' style={{color:'white'}}>
 						{
 							Object.entries(CONFIG).map(([ id, details ]) =>
-								<NavDropdown.Item key={id} onClick={() => changeNetwork(id, details) }>{ details.name }</NavDropdown.Item>
+								<NavDropdown.Item
+									key={id}
+									onClick={() => changeNetwork(id, details) }
+									className='d-flex align-items-center'
+								>
+									{ details.name }
+									{ details.name === props.config.name && <CheckCircleOutlined className='mx-2'/>}
+								</NavDropdown.Item>
 							)
 						}
 					</NavDropdown>
