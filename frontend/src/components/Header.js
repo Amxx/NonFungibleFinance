@@ -41,7 +41,7 @@ const Header = () => {
 	return (
 		<Navbar bg='dark' variant='dark'>
 			<Container fluid>
-				<Navbar.Brand href='#'>Vesting Vault</Navbar.Brand>
+				<Navbar.Brand href='#'>NFF - Vesting Vaults</Navbar.Brand>
 				<Navbar.Toggle />
 				<Navbar.Collapse className='justify-content-start'>
 					<NavDropdown title="Network" className='mx-3' style={{color:'white'}}>

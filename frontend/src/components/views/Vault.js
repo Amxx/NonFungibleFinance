@@ -18,22 +18,24 @@ const ViewVault = (props) => {
 	const [ duration,   setDuration   ] = React.useState(0);
 
 	React.useEffect(() => {
-		setInstance(new ethers.Contract(props.address, ArtefactTemplate.abi, props.signer));
-	}, [ props.address, props.signer ]);
+		setInstance(new ethers.Contract(props.address, ArtefactTemplate.abi, props.provider));
+	}, [ props.address, props.provider ]);
 
 	React.useEffect(() => {
 		if (instance) {
 			props.provider.getBalance(props.address)
 				.then(ethers.utils.formatEther)
-				.then(setBalance);
+				.then(setBalance)
+				.catch(() => setBalance(null));
 
 			instance['releaseable()']()
 				.then(ethers.utils.formatEther)
-				.then(setReleasable);
+				.then(setReleasable)
+				.catch(() => setReleasable(null));
 
-			instance.start().then(value => setStart(Number(value)));
-			instance.cliff().then(value => setCliff(Number(value)));
-			instance.duration().then(value => setDuration(Number(value)));
+			instance.start   ().then(value => setStart   (Number(value))).catch(() => setStart   (0));
+			instance.cliff   ().then(value => setCliff   (Number(value))).catch(() => setCliff   (0));
+			instance.duration().then(value => setDuration(Number(value))).catch(() => setDuration(0));
 		}
 	}, [ instance, props.address, props.provider ]);
 
