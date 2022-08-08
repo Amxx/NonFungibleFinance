@@ -1,4 +1,8 @@
 const CONFIG = {
+	1: {
+		name: 'mainnet',
+		factory: '0xDE09B87e50F65031DF6A3C3AA0E2f0EfCE5E2Cf6',
+	},
 	5: {
 		name: 'goerli',
 		factory: '0x3c912349aB2AcA8D6a573a34acfA9Ff26D49B7f9',
