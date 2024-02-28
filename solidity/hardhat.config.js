@@ -76,7 +76,7 @@ Object.assign(
   module.exports.networks,
   accounts && Object.fromEntries([
     // main
-    'mainnet', 'ropsten', 'rinkeby', 'goerli', 'kovan',
+    'mainnet', 'ropsten', 'rinkeby', 'goerli', 'kovan', 'sepolia',
     // binance smart chain
     'bsc', 'bscTestnet',
     // huobi eco chain

@@ -4,7 +4,6 @@ import moment     from 'moment';
 import { Button, Modal } from 'antd';
 import { Progress, Table } from 'antd';
 
-
 const DetailsModal = (props) => {
 	const [ isModalVisible, setIsModalVisible ] = React.useState(false);
 	const { start, cliff, duration } = props.details;
@@ -40,9 +39,9 @@ const DetailsModal = (props) => {
 				/>
 				<Table
 					dataSource={[
-						{ key: 'Chain',   value: props.config.name              },
-						{ key: 'Address', value: <code>{ props.address }</code> },
-						{ key: 'Owner',   value: <code>{ props.owner   }</code> },
+						{ key: 'Chain',   value: <a href={ props.config.explorer }                            >{ props.config.name }         </a> },
+						{ key: 'Address', value: <a href={ props.config.explorer + "address/" + props.address}><code>{ props.address }</code></a> },
+						{ key: 'Owner',   value: <a href={ props.config.explorer + "address/" + props.owner  }><code>{ props.owner   }</code></a> },
 						...[
 							{ key: 'Start',  value: start               },
 							{ key: 'Cliff',  value: cliff               },

@@ -41,7 +41,7 @@ const ViewVault = (props) => {
 	}, [ instance, props.address, props.provider ]);
 
 	return (
-		<List.Item style={{cursor:'pointer'}}>
+		<List.Item>
 			<AccountItem name={props.address} address={props.address} balance={props.releasable ? releasable : balance} style={{ width: 'auto'}}/>
 			<Space>
 				<DetailsModal  address={props.address} details={{ start, cliff, duration}}              icon={<SearchOutlined  />} {...props}>Details         </DetailsModal>
