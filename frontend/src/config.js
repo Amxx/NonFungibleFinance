@@ -12,7 +12,7 @@ const CONFIG = {
 	11155111: {
 		name: 'sepolia',
 		factory: '0xdAb4Da4369de92aB1F3819C31A41fc7060C10a8c',
-		sepolia: 'https://goerli.etherscan.io/',
+		sepolia: 'https://sepolia.etherscan.io/',
 	},
 	100: {
 		name: 'gnosis',
