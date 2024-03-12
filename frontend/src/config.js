@@ -5,12 +5,12 @@ const CONFIG = {
 		explorer: 'https://etherscan.io/',
 	},
 	5: {
-		name: 'goerli',
+		name: 'goerli (testnet)',
 		factory: '0x3c912349aB2AcA8D6a573a34acfA9Ff26D49B7f9',
 		explorer: 'https://goerli.etherscan.io/',
 	},
 	11155111: {
-		name: 'sepolia',
+		name: 'sepolia (testnet)',
 		factory: '0xdAb4Da4369de92aB1F3819C31A41fc7060C10a8c',
 		sepolia: 'https://sepolia.etherscan.io/',
 	},
@@ -21,7 +21,7 @@ const CONFIG = {
 		explorer: 'https://gnosisscan.io/',
 	},
 	80002: {
-		name: 'Amoy',
+		name: 'amoy (polygon testnet)',
 		rpcs: [ 'https://rpc-amoy.polygon.technology' ], 
 		factory: '0x697bCd5513F62773030135cA227848C4F499F7e4',
 		explorer: 'https://www.oklink.com/amoy',
