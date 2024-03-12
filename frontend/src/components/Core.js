@@ -18,7 +18,7 @@ const Core = () => {
 		const _provider = new ethers.providers.Web3Provider(window.ethereum);
 
 		setProvider(_provider);
-		_provider.getNetwork().then(({ chainId }) => setConfig(CONFIG[Number(chainId)] || {}));
+		_provider.getNetwork().then(({ chainId }) => setConfig(CONFIG.find(chain => chain.chainId === chainId) ?? {}));
 		_provider.send("eth_requestAccounts", []).then(([ address ]) => setSigner(_provider.getSigner(address)));
 
 		window.ethereum.on('chainChanged', () => setup());

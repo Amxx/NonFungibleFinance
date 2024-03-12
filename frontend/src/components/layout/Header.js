@@ -11,11 +11,11 @@ import { CheckCircleOutlined, GithubFilled, TwitterCircleFilled } from '@ant-des
 import CONFIG from '../../config';
 
 const Header = (props) => {
-	const changeNetwork = async (id, details) => {
+	const changeNetwork = async (chain) => {
 		try {
 			await window.ethereum.request({
 				method: 'wallet_switchEthereumChain',
-				params: [{ chainId: `0x${Number(id).toString(16)}` }],
+				params: [{ chainId: `0x${chain.chainId.toString(16)}` }],
 			});
 		} catch (switchError) {
 			if (switchError.code === 4902) {
@@ -23,9 +23,9 @@ const Header = (props) => {
 					await window.ethereum.request({
 						method: 'wallet_addEthereumChain',
 						params: [{
-							chainId: `0x${Number(id).toString(16)}`,
-							chainName: details.name,
-							rpcUrls: details.rpcs,
+							chainId: `0x${chain.chainId.toString(16)}`,
+							chainName: chain.name,
+							rpcUrls: chain.rpcs,
 						}],
 					});
 				} catch (addError) {
@@ -45,14 +45,14 @@ const Header = (props) => {
 				<Navbar.Collapse className='justify-content-start'>
 					<NavDropdown title="Network" className='mx-3' style={{color:'white'}}>
 						{
-							Object.entries(CONFIG).map(([ id, details ]) =>
+							CONFIG.map(chain =>
 								<NavDropdown.Item
-									key={id}
-									onClick={() => changeNetwork(id, details) }
+									key={chain.chainId}
+									onClick={() => changeNetwork(chain) }
 									className='d-flex align-items-center'
 								>
-									{ details.name }
-									{ details.name === props.config.name && <CheckCircleOutlined className='mx-2'/>}
+									{ chain.name }
+									{ chain.name === props.config.name && <CheckCircleOutlined className='mx-2'/>}
 								</NavDropdown.Item>
 							)
 						}
