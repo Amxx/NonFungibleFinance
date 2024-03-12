@@ -20,6 +20,12 @@ const CONFIG = {
 		factory: '0x6769b73598da4e4d697209aa400f05ed2217d525',
 		explorer: 'https://gnosisscan.io/',
 	},
+	80002: {
+		name: 'Amoy',
+		rpcs: [ 'https://rpc-amoy.polygon.technology' ], 
+		factory: '0x697bCd5513F62773030135cA227848C4F499F7e4',
+		explorer: 'https://www.oklink.com/amoy',
+	},
 };
 
 export default CONFIG;

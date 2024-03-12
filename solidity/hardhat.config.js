@@ -86,7 +86,7 @@ Object.assign(
     // optimism
     'optimisticEthereum', 'optimisticKovan',
     // polygon
-    'polygon', 'polygonMumbai',
+    'polygon', 'polygonMumbai', 'polygonAmoy',
     // arbitrum
     'arbitrumOne', 'arbitrumTestnet',
     // avalanche
