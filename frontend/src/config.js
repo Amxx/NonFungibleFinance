@@ -18,7 +18,7 @@ const CONFIG = [{
 	name: 'sepolia (testnet)',
 	chainId: 11155111,
 	factory: '0xdAb4Da4369de92aB1F3819C31A41fc7060C10a8c',
-	sepolia: 'https://sepolia.etherscan.io/',
+	explorer: 'https://sepolia.etherscan.io/',
 },{
 	name: 'amoy (polygon testnet)',
 	chainId: 80002,
